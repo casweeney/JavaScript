@@ -145,7 +145,7 @@ retirementIceland(1992); */
 
 
 /////////////////////////////////////
-// Closure Challenge: Write the InterviewQuestion Function below using the power of closure
+// Closure Challenge: Write the InterviewQuestion Function below using the power of Closure
 /* function interviewQuestion(job){
     if(job === 'designer'){
         return function(name) {
@@ -163,7 +163,7 @@ retirementIceland(1992); */
 } */
 
 // Challenge Solution
-function interviewQuestion(job){
+/* function interviewQuestion(job){
     return function(name){
         if(job === 'designer'){
             console.log(name + ' can you please explain what UX design is?');
@@ -175,4 +175,65 @@ function interviewQuestion(job){
     }
 }
 
-interviewQuestion('developer')('Casweeney');
+interviewQuestion('developer')('Casweeney'); */
+
+
+///////////////////////////////////
+// Lecture: Bind, call and apply
+var john = {
+    name: 'John',
+    age: 30,
+    job: 'teacher',
+    presentation: function(style, timeOfDay) {
+        if(style === 'formal'){
+            console.log('Good ' + timeOfDay + ' Ladies and gentlemen! I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old.');
+        } else if (style === 'friendly'){
+            console.log('Hey! what\'s up? I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay + '.');
+        }
+    }
+}
+
+var emily = {
+    name: 'emily',
+    age: 28,
+    job: 'designer'
+}
+
+john.presentation('formal', 'morning');
+
+john.presentation.call(emily, 'friendly', 'afternoon'); // Using method borrowing
+//john.presentation.apply(emily, ['friendly', 'afternoon']);
+
+var johnFriendly = john.presentation.bind(john, 'friendly'); // Carrying
+
+johnFriendly('afternoon');
+johnFriendly('night');
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('morning');
+
+////////////////////////////////
+// Using bind() method
+var years = [1990, 1965, 1937, 2005, 1998];
+
+function arrayCalc (arr, fn){
+    var arrRes = [];
+    for(i = 0; i < arr.length; i++){
+        arrRes.push(fn(arr[i]));
+    }
+    return arrRes;
+}
+
+function calculateAge(el){
+    return 2020 - el;
+}
+
+function isFullAge(limit, el){
+    return el >= limit;
+}
+
+var ages = arrayCalc(years, calculateAge);
+console.log(ages);
+
+var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
+console.log(fullJapan);
