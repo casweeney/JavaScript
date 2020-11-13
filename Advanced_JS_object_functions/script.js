@@ -278,7 +278,7 @@ console.log(fullJapan); */
 
     // Step 4
     const n = Math.floor(Math.random() * questions.length);
-    questions [n].displayQuestion();
+    questions[n].displayQuestion();
 
     // Step 5
     const answer = parseInt(prompt('Please select the correct answer.'));
