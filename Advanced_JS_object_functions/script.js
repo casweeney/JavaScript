@@ -180,7 +180,7 @@ interviewQuestion('developer')('Casweeney'); */
 
 ///////////////////////////////////
 // Lecture: Bind, call and apply
-var john = {
+/* var john = {
     name: 'John',
     age: 30,
     job: 'teacher',
@@ -210,11 +210,11 @@ johnFriendly('afternoon');
 johnFriendly('night');
 
 var emilyFormal = john.presentation.bind(emily, 'formal');
-emilyFormal('morning');
+emilyFormal('morning'); */
 
 ////////////////////////////////
 // Using bind() method
-var years = [1990, 1965, 1937, 2005, 1998];
+/* var years = [1990, 1965, 1937, 2005, 1998];
 
 function arrayCalc (arr, fn){
     var arrRes = [];
@@ -236,4 +236,127 @@ var ages = arrayCalc(years, calculateAge);
 console.log(ages);
 
 var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
-console.log(fullJapan);
+console.log(fullJapan); */
+
+////////////////////////
+// Build a fun quiz game:
+
+// Step 7: Make the code private
+/* (function(){
+    //Step 1
+    function Question(question, answers, correct){
+        this.question = question;
+        this.answers = answers;
+        this.correct = correct;
+    }
+
+    //Step 3
+    Question.prototype.displayQuestion = function(){
+        console.log(this.question);
+
+        for(var i = 0; i < this.answers.length; i++) {
+            console.log(i + ': ' + this.answers[i]);
+        }
+    }
+
+    // Step 6
+    Question.prototype.checkAnswer = function(ans){
+        if(ans === this.correct){
+            console.log('Correct Answer');
+        } else {
+            console.log('Wrong Answer! Try Again :');
+        }
+    }
+
+    //Step 2
+    const q1 = new Question('Which programming language is the best?', ['JavaScript', 'PHP', 'Python', 'Java'], 0);
+    const q2 = new Question('What is the first language of the web?', ['HTML', 'CSS', 'JavaScript'], 0);
+    const q3 = new Question('What gives websites a beautiful presentation?', ['JavaScript', 'CSS', 'JavaScript', 'Bootstrap'], 1);
+
+    //Step 3
+    const questions = [q1,q2,q3];
+
+    // Step 4
+    const n = Math.floor(Math.random() * questions.length);
+    questions [n].displayQuestion();
+
+    // Step 5
+    const answer = parseInt(prompt('Please select the correct answer.'));
+
+    // Step 6 continues
+    questions[n].checkAnswer(answer);
+})(); */
+
+
+(function(){
+    
+    function Question(question, answers, correct){
+        this.question = question;
+        this.answers = answers;
+        this.correct = correct;
+    }
+
+    
+    Question.prototype.displayQuestion = function(){
+        console.log(this.question);
+
+        for(var i = 0; i < this.answers.length; i++) {
+            console.log(i + ': ' + this.answers[i]);
+        }
+    }
+
+    
+    Question.prototype.checkAnswer = function(ans, callback){
+        var sc;
+        if(ans === this.correct){
+            console.log('Correct Answer');
+            sc = callback(true);
+        } else {
+            console.log('Wrong Answer! Try Again :');
+            sc = callback(false);
+        }
+
+        this.displayScore(sc);
+    }
+
+    Question.prototype.displayScore = function(score){
+        console.log('Your current score is: ' + score);
+        console.log('---------------------------');
+    }
+
+    
+    const q1 = new Question('Which programming language is the best?', ['JavaScript', 'PHP', 'Python', 'Java'], 0);
+    const q2 = new Question('What is the first language of the web?', ['HTML', 'CSS', 'JavaScript'], 0);
+    const q3 = new Question('What gives websites a beautiful presentation?', ['JavaScript', 'CSS', 'JavaScript', 'Bootstrap'], 1);
+
+    const questions = [q1,q2,q3];
+
+    function score() {
+        var sc = 0;
+        return function(correct) {
+            if(correct){
+                sc++;
+            }
+            return sc;
+        }
+    }
+
+    var keepScore = score();
+    
+    function nextQuestion(){
+        const n = Math.floor(Math.random() * questions.length);
+        questions[n].displayQuestion();
+        
+        const answer = prompt('Please select the correct answer.');
+
+        if(answer !== 'exit'){
+            questions[n].checkAnswer(parseInt(answer), keepScore);
+            nextQuestion();
+        }
+    }
+
+    nextQuestion();
+})();
+
+
+
